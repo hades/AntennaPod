@@ -1,5 +1,6 @@
 plugins {
     id("com.android.library")
+    id 'org.jetbrains.kotlin.android'
 }
 apply from: "../../common.gradle"
 apply from: "../../playFlavor.gradle"
@@ -24,6 +25,7 @@ dependencies {
     implementation project(':ui:notifications')
     implementation project(':ui:widget')
     implementation project(':ui:chapters')
+    implementation 'androidx.core:core-ktx:+'
 
     annotationProcessor "androidx.annotation:annotation:$annotationVersion"
     implementation "androidx.car.app:app:1.4.0-rc02"
