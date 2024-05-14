@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.media.AudioAttributesCompat;
 import androidx.media.AudioFocusRequestCompat;
 import androidx.media.AudioManagerCompat;
+import androidx.media3.common.Player;
+
 import de.danoeh.antennapod.event.PlayerErrorEvent;
 import de.danoeh.antennapod.event.playback.BufferUpdateEvent;
 import de.danoeh.antennapod.event.playback.SpeedChangedEvent;
@@ -57,6 +59,10 @@ public class LocalPSMP extends PlaybackServiceMediaPlayer {
     private final Handler audioFocusCanceller;
     private boolean isShutDown = false;
     private CountDownLatch seekLatch;
+
+    public Player getPlayer() {
+        return mediaPlayer.getPlayer();
+    }
 
     public LocalPSMP(@NonNull Context context,
                      @NonNull PlaybackServiceMediaPlayer.PSMPCallback callback) {
@@ -610,11 +616,6 @@ public class LocalPSMP extends PlaybackServiceMediaPlayer {
         @Override
         public void onAudioFocusChange(final int focusChange) {
             if (isShutDown) {
-                return;
-            }
-            if (!PlaybackService.isRunning) {
-                abandonAudioFocus();
-                Log.d(TAG, "onAudioFocusChange: PlaybackService is no longer running");
                 return;
             }
 

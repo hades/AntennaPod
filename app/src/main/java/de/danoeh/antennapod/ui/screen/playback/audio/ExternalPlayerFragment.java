@@ -69,8 +69,6 @@ public class ExternalPlayerFragment extends Fragment {
                 if (controller.getMedia().getMediaType() == MediaType.AUDIO) {
                     ((MainActivity) getActivity()).getBottomSheet().setState(BottomSheetBehavior.STATE_EXPANDED);
                 } else {
-                    Intent intent = PlaybackService.getPlayerActivityIntent(getActivity(), controller.getMedia());
-                    startActivity(intent);
                 }
             }
         });
@@ -87,8 +85,6 @@ public class ExternalPlayerFragment extends Fragment {
             if (controller.getMedia() != null && controller.getMedia().getMediaType() == MediaType.VIDEO
                     && controller.getStatus() != PlayerStatus.PLAYING) {
                 controller.playPause();
-                getContext().startActivity(PlaybackService
-                        .getPlayerActivityIntent(getContext(), controller.getMedia()));
             } else {
                 controller.playPause();
             }

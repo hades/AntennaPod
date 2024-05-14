@@ -118,14 +118,6 @@ public class VideoplayerActivity extends CastEnabledActivity implements SeekBar.
     protected void onResume() {
         super.onResume();
         switchToAudioOnly = false;
-        if (PlaybackService.isCasting()) {
-            Intent intent = PlaybackService.getPlayerActivityIntent(this);
-            if (!intent.getComponent().getClassName().equals(VideoplayerActivity.class.getName())) {
-                destroyingDueToReload = true;
-                finish();
-                startActivity(intent);
-            }
-        }
     }
 
     @Override

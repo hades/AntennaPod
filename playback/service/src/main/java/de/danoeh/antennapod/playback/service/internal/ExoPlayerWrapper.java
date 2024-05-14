@@ -405,4 +405,8 @@ public class ExoPlayerWrapper {
 
         this.loudnessEnhancer = newEnhancer;
     }
+
+    public Player getPlayer() {
+        return exoPlayer;
+    }
 }
