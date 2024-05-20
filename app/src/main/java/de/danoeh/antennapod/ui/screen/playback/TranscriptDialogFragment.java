@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -113,7 +114,7 @@ public class TranscriptDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        controller = new PlaybackController(getActivity()) {
+        controller = new PlaybackController((AppCompatActivity) getActivity()) {
             @Override
             public void loadMediaInfo() {
                 TranscriptDialogFragment.this.loadMediaInfo(false);

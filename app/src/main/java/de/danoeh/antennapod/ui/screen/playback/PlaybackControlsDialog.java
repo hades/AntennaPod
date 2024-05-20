@@ -8,6 +8,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import android.widget.Button;
 import de.danoeh.antennapod.R;
@@ -33,7 +35,7 @@ public class PlaybackControlsDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        controller = new PlaybackController(getActivity()) {
+        controller = new PlaybackController((AppCompatActivity) getActivity()) {
             @Override
             public void loadMediaInfo() {
                 setupAudioTracks();

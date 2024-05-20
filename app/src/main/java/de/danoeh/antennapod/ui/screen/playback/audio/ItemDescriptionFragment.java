@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import de.danoeh.antennapod.R;
@@ -166,7 +167,7 @@ public class ItemDescriptionFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        controller = new PlaybackController(getActivity()) {
+        controller = new PlaybackController((AppCompatActivity) getActivity()) {
             @Override
             public void loadMediaInfo() {
                 load();

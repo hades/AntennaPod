@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -47,7 +48,7 @@ public class VariableSpeedDialog extends BottomSheetDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        controller = new PlaybackController(getActivity()) {
+        controller = new PlaybackController((AppCompatActivity) getActivity()) {
             @Override
             public void loadMediaInfo() {
                 updateSpeed(new SpeedChangedEvent(controller.getCurrentPlaybackSpeedMultiplier()));

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -97,7 +98,7 @@ public class ChaptersFragment extends AppCompatDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        controller = new PlaybackController(getActivity()) {
+        controller = new PlaybackController((AppCompatActivity) getActivity()) {
             @Override
             public void loadMediaInfo() {
                 ChaptersFragment.this.loadMediaInfo(false);

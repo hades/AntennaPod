@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -93,7 +94,7 @@ public class ExternalPlayerFragment extends Fragment {
     }
 
     private PlaybackController setupPlaybackController() {
-        return new PlaybackController(getActivity()) {
+        return new PlaybackController((AppCompatActivity) getActivity()) {
             @Override
             protected void updatePlayButtonShowsPlay(boolean showPlay) {
                 butPlay.setIsShowPlay(showPlay);

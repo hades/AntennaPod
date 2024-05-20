@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -278,7 +279,7 @@ public class AudioPlayerFragment extends Fragment implements
     }
 
     private PlaybackController newPlaybackController() {
-        return new PlaybackController(getActivity()) {
+        return new PlaybackController((AppCompatActivity) getActivity()) {
             @Override
             protected void updatePlayButtonShowsPlay(boolean showPlay) {
                 butPlay.setIsShowPlay(showPlay);

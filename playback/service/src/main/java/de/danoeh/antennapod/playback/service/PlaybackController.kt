@@ -11,7 +11,14 @@ import android.os.IBinder
 import android.util.Log
 import android.util.Pair
 import android.view.SurfaceHolder
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.withStarted
+import androidx.media3.session.MediaBrowser
+import androidx.media3.session.SessionToken
 import de.danoeh.antennapod.event.playback.PlaybackPositionEvent
 import de.danoeh.antennapod.event.playback.PlaybackServiceEvent
 import de.danoeh.antennapod.event.playback.SpeedChangedEvent
@@ -25,6 +32,8 @@ import de.danoeh.antennapod.storage.database.DBReader
 import de.danoeh.antennapod.storage.database.DBWriter
 import de.danoeh.antennapod.storage.preferences.PlaybackPreferences
 import de.danoeh.antennapod.ui.episodes.PlaybackSpeedUtils
+import kotlinx.coroutines.guava.await
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -33,9 +42,16 @@ import org.greenrobot.eventbus.ThreadMode
  * Communicates with the playback service. GUI classes should use this class to
  * control playback instead of communicating with the PlaybackService directly.
  */
-abstract class PlaybackController(private val activity: Activity) {
-    @Synchronized
+abstract class PlaybackController(private val activity: AppCompatActivity) {
+    private var browser: MediaBrowser? = null
+
     fun init() {
+        activity.lifecycleScope.launch {
+            activity.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val sessionToken = SessionToken(activity, ComponentName(activity, PlaybackService::class.java))
+                browser = MediaBrowser.Builder(activity, sessionToken).buildAsync().await()
+            }
+        }
     }
 
     /**
@@ -43,6 +59,7 @@ abstract class PlaybackController(private val activity: Activity) {
      * example in the activity's onStop() method.
      */
     fun release() {
+        browser?.release()
     }
 
     /**
@@ -57,14 +74,12 @@ abstract class PlaybackController(private val activity: Activity) {
     protected open fun updatePlayButtonShowsPlay(showPlay: Boolean) {}
     abstract fun loadMediaInfo()
 
-    /**
-     * Called when connection to playback service has been established or
-     * information has to be refreshed
-     */
-    private fun queryService() {
-    }
-
     fun playPause() {
+        if (browser?.isPlaying == true) {
+            browser?.pause()
+        } else {
+            browser?.play()
+        }
     }
 
     val status: PlayerStatus = PlayerStatus.STOPPED
@@ -77,8 +92,6 @@ abstract class PlaybackController(private val activity: Activity) {
 
     fun disableSleepTimer() {
     }
-
-    val sleepTimerTimeLeft: Long = 0
 
     fun extendSleepTimer(extendTime: Long) {
     }
